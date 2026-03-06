@@ -1,0 +1,62 @@
+@if(isLoading()){
+<div class="loader-container">
+    <app-loader [height]="20" />
+</div>
+}@else {
+<div class="information-container">
+    @if(userBasicInfo()){
+    <div class="user-profile">
+        <div class="user-rounded"><lucide-icon [img]="User" class="user-icon" [size]="35" [color]="'#ff6800'"></lucide-icon></div>
+    </div>
+    <div class="user-info-container">
+        <div class="user-info">
+            <span class="fullname"
+                >{{ userBasicInfo()?.fullName }}
+                <app-clipboard-copy [textToCopy]="userBasicInfo()?.fullName!!"></app-clipboard-copy>
+            </span>
+            <span class="age">
+                {{ userBasicInfo()!.age < 1 ? 'nouveau né' : userBasicInfo()?.age + ' ans' }}
+            </span>
+            @if ( hasMedicalInfo() ) {
+            <div class="consultation-info">
+                <strong>Dernière consultation</strong>: @if (!userBasicInfo()?.lastConsultationDate) {
+                <span>Aucun</span>
+                }@else {
+                <span
+                    >{{ userBasicInfo()?.lastConsultationDate | date : 'dd/MM/yyyy' }}
+                    {{ !userBasicInfo()?.doctor ? '' : `-"${userBasicInfo()?.doctor}"` }}</span
+                >
+                }
+            </div>
+
+            }
+        </div>
+        <div class="user-description">
+            <div class="description-label">
+                <span>Date de naissance</span>
+                <span>Profession</span>
+                <span>Téléphone</span>
+                <span>Adresse</span>
+                <span>CIN</span>
+            </div>
+            <div class="description-value">
+                <ng-container *ngIf="isValidDate(userBasicInfo()?.birthDate); else invalidDate">
+                    <span>{{ formatDate(userBasicInfo()?.birthDate) }}</span>
+                </ng-container>
+                <ng-template #invalidDate><span>Date inconnue</span></ng-template>
+                <span [title]="userBasicInfo()?.profession">{{
+                    userBasicInfo()?.profession ? userBasicInfo()?.profession : 'Aucun'
+                }}</span>
+                <span [title]="userBasicInfo()?.phone">{{ userBasicInfo()?.phone ? userBasicInfo()?.phone : 'Aucun' }}</span>
+                <span [title]="userBasicInfo()?.address">{{ userBasicInfo()?.address }}</span>
+                <span [title]="userBasicInfo()?.nationalIdNumber">
+                    {{ userBasicInfo()?.nationalIdNumber ? userBasicInfo()?.nationalIdNumber : 'Aucun' }}</span
+                >
+            </div>
+        </div>
+    </div>
+    } @else {
+    <p class="not-found-text">Patient non identifié</p>
+    }
+</div>
+}

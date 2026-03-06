@@ -1,0 +1,9 @@
+<div class="text-danger" *ngIf="control() && control().errors && control().dirty && control().touched">
+    <div *ngFor="let controlError of control().errors | keyvalue">
+        <div *ngIf="$any(errorLabels)[controlError.key] || customErrorLabels()?.[controlError.key]" class="text-wrapper">
+            <small>
+                {{ customErrorLabels()?.[controlError.key] || $any(errorLabels)[controlError.key] }}
+            </small>
+        </div>
+    </div>
+</div>

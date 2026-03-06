@@ -1,0 +1,182 @@
+<!-- Toolbar : recherche + tri + onglets de statut -->
+<div class="toolbar">
+  <div class="search-row">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Rechercher une tâche..."
+      [(ngModel)]="keyword"
+      (ngModelChange)="applyFilters()"
+    />
+    @if (keyword) {
+      <button class="btn btn-ghost btn-sm" (click)="clearSearch()">Effacer</button>
+    }
+    <select class="sort-select" [(ngModel)]="sortBy" (ngModelChange)="applyFilters()">
+      <option value="default">Tri : par défaut</option>
+      <option value="priority">Tri : priorité</option>
+      <option value="deadline">Tri : deadline</option>
+      <option value="title">Tri : titre A→Z</option>
+    </select>
+  </div>
+
+  <div class="status-tabs">
+    @for (tab of tabs; track tab.value) {
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === tab.value"
+        (click)="setTab(tab.value)"
+      >
+        {{ tab.label }}
+        <span class="tab-count">{{ countByStatus(tab.value) }}</span>
+      </button>
+    }
+  </div>
+</div>
+
+<!-- Loader -->
+@if (loading) {
+  <div class="spinner-wrap">
+    <div class="spinner"></div>
+  </div>
+}
+
+<!-- Liste vide -->
+@if (!loading && tasks.length === 0) {
+  <div class="empty-state">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <rect width="48" height="48" rx="12" fill="#e0e7ff"/>
+      <path d="M14 16h20M14 24h14M14 32h16" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <p>Aucune tâche pour le moment</p>
+    <a routerLink="/tasks/create" class="btn btn-primary">Créer une tâche</a>
+  </div>
+}
+
+<!-- Cards de tâches -->
+<div class="tasks-grid">
+  @for (task of tasks; track task.id) {
+    <div class="task-card" [class.deadline-soon]="isDeadlineSoon(task)" [class.deadline-urgent]="isDeadlineUrgent(task)">
+
+      @if (loadingCardId === task.id) {
+        <div class="card-shimmer">
+          <div class="shimmer-row">
+            <div class="sk-line sk-title"></div>
+            <div class="sk-line sk-badge"></div>
+          </div>
+          <div class="sk-line sk-desc"></div>
+          <div class="sk-line sk-desc sk-short"></div>
+          <div class="shimmer-row sk-actions">
+            <div class="sk-line sk-btn"></div>
+            <div class="sk-line sk-btn"></div>
+          </div>
+        </div>
+      } @else {
+
+      <!-- En-tête de la carte -->
+      <div class="task-card-header">
+        <h3 class="task-title">{{ task.title }}</h3>
+        <div class="badges-row">
+          <span class="badge priority-badge"
+            [class.priority-low]="(task.priority ?? 'normal') === 'low'"
+            [class.priority-normal]="(task.priority ?? 'normal') === 'normal'"
+            [class.priority-urgent]="(task.priority ?? 'normal') === 'urgent'">
+            {{ priorityLabel(task.priority ?? 'normal') }}
+          </span>
+          <span class="badge"
+            [class.badge-pending]="task.status === 'pending'"
+            [class.badge-in-progress]="task.status === 'in-progress'"
+            [class.badge-done]="task.status === 'done'">
+            {{ statusLabel(task.status) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Alerte deadline imminente -->
+      @if (isDeadlineSoon(task)) {
+        <div class="deadline-alert" [class.deadline-urgent]="isDeadlineUrgent(task)">
+          {{ deadlineRemainingText(task) }}
+        </div>
+      }
+
+      <!-- Description -->
+      @if (task.description) {
+        <p class="task-desc">{{ task.description }}</p>
+      }
+
+      <!-- Dates -->
+      @if (task.startTime || task.endTime) {
+        <div class="task-dates">
+          @if (task.startTime) {
+            <span>Début : {{ task.startTime | date:'dd/MM/yy HH:mm' }}</span>
+          }
+          @if (task.endTime) {
+            <span>Fin : {{ task.endTime | date:'dd/MM/yy HH:mm' }}</span>
+          }
+        </div>
+      }
+
+      <!-- Sous-tâches -->
+      @if (task.subTasks.length) {
+        <ul class="subtasks-list">
+          @for (sub of task.subTasks; track sub.id) {
+            <li
+              class="subtask-item"
+              [class.is-done]="sub.status === 'done'"
+              (click)="toggleSubTaskStatus(task.id, sub.id, sub.status)"
+            >
+              <span class="subtask-check" [class.checked]="sub.status === 'done'">
+                @if (sub.status === 'done') {
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+              </span>
+              <span class="subtask-title" [class.done]="sub.status === 'done'">{{ sub.title }}</span>
+            </li>
+          }
+        </ul>
+      }
+
+      <!-- Changer le statut -->
+      <div class="task-status-row">
+        <select
+          class="status-select-inline"
+          [value]="task.status"
+          (change)="onStatusChange(task.id, $event)"
+        >
+          <option value="pending">En attente</option>
+          <option value="in-progress">En cours</option>
+          <option value="done">Terminé</option>
+        </select>
+      </div>
+
+      <!-- Actions -->
+      <div class="task-actions">
+        <button class="btn btn-ghost btn-sm" (click)="editTask(task.id)">Modifier</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteTask(task.id)">Supprimer</button>
+      </div>
+
+      }
+    </div>
+  }
+</div>
+
+<!-- Popup de confirmation de suppression -->
+@if (pendingDeleteId) {
+  <div class="modal-overlay" (click)="cancelDelete()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-icon">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <circle cx="22" cy="22" r="22" fill="#fef2f2"/>
+          <path d="M16 16l12 12M28 16L16 28" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="modal-title">Supprimer la tâche ?</h3>
+      <p class="modal-desc">Cette action est irréversible. La tâche et toutes ses sous-tâches seront définitivement supprimées.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" (click)="cancelDelete()">Annuler</button>
+        <button class="btn btn-danger" (click)="confirmDeleteTask()">Supprimer</button>
+      </div>
+    </div>
+  </div>
+}

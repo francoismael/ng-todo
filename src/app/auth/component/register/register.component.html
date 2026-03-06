@@ -1,0 +1,160 @@
+<div class="auth-page">
+
+  <!-- ── Panneau gauche : formulaire ── -->
+  <div class="auth-panel-left">
+    <div class="auth-inner">
+
+      <div class="auth-brand">
+        <div class="auth-logo">
+          <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="purpleGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#A020F0"/>
+                <stop offset="50%" stop-color="#8A2BE2"/>
+                <stop offset="100%" stop-color="#5F00BA"/>
+              </linearGradient>
+              <filter id="softGlow2">
+                <feGaussianBlur stdDeviation="8" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <rect x="20" y="20" width="160" height="160" rx="40" fill="url(#purpleGradient2)" filter="url(#softGlow2)"/>
+            <rect x="60" y="55" width="70" height="10" rx="5" fill="white" opacity="0.9"/>
+            <rect x="60" y="85" width="70" height="10" rx="5" fill="white" opacity="0.9"/>
+            <rect x="60" y="115" width="45" height="10" rx="5" fill="white" opacity="0.9"/>
+            <path d="M65 115 L80 130 L120 85" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="brand-name">TaskFlow</span>
+      </div>
+
+      <div class="auth-header">
+        <h1>Créer un compte</h1>
+        <p class="auth-subtitle">Rejoignez TaskFlow dès maintenant</p>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form" autocomplete="off">
+        <div class="auth-field">
+          <label for="username">Nom d'utilisateur</label>
+          <input id="username" type="text" formControlName="username" placeholder="votre pseudo" autocomplete="off"
+            [class.input-error]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"/>
+          <span class="field-error" *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')">
+            Le nom d'utilisateur est requis
+          </span>
+          <span class="field-error" *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('minlength')">
+            Minimum 3 caractères
+          </span>
+        </div>
+
+        <div class="auth-field">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" placeholder="votre@email.com" autocomplete="off"
+            [class.input-error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"/>
+          <span class="field-error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')">
+            L'email est requis
+          </span>
+          <span class="field-error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('email')">
+            Format d'email invalide (ex : nom&#64;domaine.com)
+          </span>
+        </div>
+
+        <div class="auth-field">
+          <label for="password">Mot de passe</label>
+          <div class="input-password-wrap">
+            <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••" autocomplete="new-password"
+              [class.input-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"/>
+            <button type="button" class="eye-btn" (click)="showPassword = !showPassword" tabindex="-1">
+              <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')">
+            Le mot de passe est requis
+          </span>
+          <span class="field-error" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')">
+            Minimum 8 caractères
+          </span>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+
+        <button type="submit" class="btn-auth" [disabled]="isLoading">
+          <svg *ngIf="isLoading" class="btn-spinner" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.35)" stroke-width="3"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <span>{{ isLoading ? 'Inscription...' : "S'inscrire" }}</span>
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        Déjà un compte ? <a routerLink="/auth/login">Se connecter</a>
+      </p>
+
+    </div>
+  </div>
+
+  <!-- ── Panneau droit : illustration ── -->
+  <div class="auth-panel-right">
+    <div class="illustration-wrap">
+      <svg viewBox="0 0 360 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Halo de fond -->
+        <circle cx="180" cy="148" r="115" fill="rgba(255,255,255,0.07)"/>
+
+        <!-- Clipboard principal -->
+        <rect x="110" y="55" width="130" height="175" rx="12" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+        <!-- Clip agrafe -->
+        <rect x="148" y="46" width="64" height="18" rx="9" fill="rgba(255,255,255,0.28)"/>
+
+        <!-- Ligne 1 -->
+        <circle cx="133" cy="98" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+        <rect x="148" y="94" width="76" height="8" rx="4" fill="rgba(255,255,255,0.28)"/>
+
+        <!-- Ligne 2 -->
+        <circle cx="133" cy="124" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+        <rect x="148" y="120" width="76" height="8" rx="4" fill="rgba(255,255,255,0.28)"/>
+
+        <!-- Ligne 3 -->
+        <circle cx="133" cy="150" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+        <rect x="148" y="146" width="55" height="8" rx="4" fill="rgba(255,255,255,0.28)"/>
+
+        <!-- Ligne 4 -->
+        <circle cx="133" cy="176" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+        <rect x="148" y="172" width="68" height="8" rx="4" fill="rgba(255,255,255,0.28)"/>
+
+        <!-- Personnage stylisé -->
+        <circle cx="292" cy="108" r="20" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <line x1="292" y1="128" x2="292" y2="178" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M292 148 Q268 138 250 128" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M292 148 Q310 140 322 133" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <line x1="292" y1="178" x2="275" y2="215" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="292" y1="178" x2="309" y2="215" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Plus (+) flottant haut-gauche — inscription = ajouter -->
+        <circle cx="62" cy="118" r="24" fill="rgba(50,30,90,0.55)"/>
+        <line x1="62" y1="109" x2="62" y2="127" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="53" y1="118" x2="71" y2="118" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Badge check flottant bas-gauche -->
+        <circle cx="50" cy="205" r="24" fill="rgba(50,30,90,0.45)"/>
+        <path d="M41 205 L47 211 L60 198" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <p class="panel-tagline">Gérez vos tâches de façon simple et efficace avec TaskFlow...</p>
+
+    <div class="panel-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+
+</div>

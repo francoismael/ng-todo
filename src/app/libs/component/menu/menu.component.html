@@ -1,0 +1,12 @@
+<div class="sidenav-container">
+    <ul>
+        @for(menu of menus(); track $index) {
+        <li [routerLink]="menu.routerLink" routerLinkActive="active" [class.active]="menu.isActive">
+            <div class="menu-item-content">
+                <lucide-icon [img]="menu.lucideIcon" class="menu-icon" />
+                <span class="menu-label">{{ menu.label }}</span>
+            </div>
+        </li>
+        }
+    </ul>
+</div>

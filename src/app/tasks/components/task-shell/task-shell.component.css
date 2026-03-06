@@ -1,0 +1,52 @@
+/* Topbar right area */
+.topbar-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+
+.theme-toggle:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 8px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #fef2f2;
+  color: var(--danger);
+  border-color: #fecaca;
+}
+
+.logout-btn lucide-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Hide logout text on very small screens */
+@media (max-width: 480px) {
+  .logout-btn span {
+    display: none;
+  }
+}

@@ -1,0 +1,64 @@
+<div class="app-layout">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-brand">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+        <path d="M8 10h16M8 16h10M8 22h12" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      Task<span>Flow</span>
+    </div>
+
+    <a class="nav-link" routerLink="/tasks" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <lucide-icon [img]="List"></lucide-icon>
+      Mes tâches
+    </a>
+
+    <a class="nav-link" routerLink="/tasks/create" routerLinkActive="active">
+      <lucide-icon [img]="Plus"></lucide-icon>
+      Nouvelle tâche
+    </a>
+
+    <a class="nav-link" routerLink="/tasks/stats" routerLinkActive="active">
+      <lucide-icon [img]="BarChart2"></lucide-icon>
+      Statistiques
+    </a>
+
+    <a class="nav-link" routerLink="/tasks/scheduled" routerLinkActive="active">
+      <lucide-icon [img]="Calendar"></lucide-icon>
+      Planification
+    </a>
+
+
+<div class="sidebar-spacer"></div>
+
+    <div class="sidebar-bottom">
+      <a class="nav-link" routerLink="/tasks/profile" routerLinkActive="active">
+        <lucide-icon [img]="User"></lucide-icon>
+        Mon profil
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="app-main">
+    <header class="topbar">
+      <span class="topbar-title">Gestion des tâches</span>
+
+      <div class="topbar-right">
+        <div class="logout">
+          <lucide-icon [img]="LogOut" (click)="toggleLogout()"></lucide-icon>
+        </div>
+        @if (showLogout) {
+          <app-logout (cancel)="showLogout = false" />
+        }
+      </div>
+    </header>
+
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+<app-toast />

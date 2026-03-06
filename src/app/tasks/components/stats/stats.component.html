@@ -1,0 +1,110 @@
+<div class="stats-page">
+  <div class="stats-header">
+    <h2>Statistiques</h2>
+    <p class="stats-subtitle">Vue d'ensemble de vos tâches</p>
+  </div>
+
+  @if (loading) {
+    <div class="spinner-wrap">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+
+    <!-- Taux de complétion -->
+    <div class="completion-card">
+      <div class="completion-info">
+        <span class="completion-title">Taux de complétion</span>
+        <span class="completion-value">{{ completionRate }}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="completionRate"></div>
+      </div>
+      <p class="completion-sub">{{ done }} tâche(s) terminée(s) sur {{ total }}</p>
+    </div>
+
+    <!-- Cartes de stats -->
+    <div class="stats-grid">
+      <div class="stat-card stat-total">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="2" y="2" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M6 8h10M6 12h7M6 16h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="stat-value">{{ total }}</span>
+        <span class="stat-label">Tâches totales</span>
+      </div>
+
+      <div class="stat-card stat-done">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M7 11l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="stat-value">{{ done }}</span>
+        <span class="stat-label">Terminées</span>
+      </div>
+
+      <div class="stat-card stat-progress">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.8" stroke-dasharray="4 2"/>
+            <circle cx="11" cy="11" r="4" fill="currentColor" opacity="0.4"/>
+          </svg>
+        </div>
+        <span class="stat-value">{{ inProgress }}</span>
+        <span class="stat-label">En cours</span>
+      </div>
+
+      <div class="stat-card stat-pending">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M11 7v4l2.5 2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="stat-value">{{ pending }}</span>
+        <span class="stat-label">En attente</span>
+      </div>
+
+      <div class="stat-card stat-urgent">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 2L2 20h18L11 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M11 9v4M11 15.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="stat-value">{{ urgent }}</span>
+        <span class="stat-label">Urgentes</span>
+      </div>
+
+      <div class="stat-card stat-overdue">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="3" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M7 3v4M15 3v4M3 10h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M8 15l2-2 2 2 2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="stat-value">{{ overdue }}</span>
+        <span class="stat-label">En retard</span>
+      </div>
+    </div>
+
+    <!-- Sous-tâches -->
+    @if (totalSubTasks > 0) {
+      <div class="subtask-stats card">
+        <h3 class="subtask-title">Sous-tâches</h3>
+        <div class="subtask-row-stats">
+          <span class="subtask-count">{{ doneSubTasks }} / {{ totalSubTasks }} complétées</span>
+          <span class="subtask-pct">{{ totalSubTasks > 0 ? (doneSubTasks / totalSubTasks * 100 | number:'1.0-0') : 0 }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill progress-sub" [style.width.%]="totalSubTasks > 0 ? (doneSubTasks / totalSubTasks * 100) : 0"></div>
+        </div>
+      </div>
+    }
+
+  }
+</div>

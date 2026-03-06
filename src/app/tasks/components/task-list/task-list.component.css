@@ -1,0 +1,385 @@
+/* ── Toolbar ── */
+.toolbar {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  background: var(--bg-card);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+
+/* ── Onglets de statut ── */
+.status-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-light);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.tab-btn:hover {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--primary);
+}
+.tab-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.25);
+  color: inherit;
+}
+.tab-btn:not(.active) .tab-count {
+  background: var(--bg);
+  color: var(--text-light);
+}
+
+/* ── Empty state ── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 20px;
+  color: var(--text-light);
+  text-align: center;
+}
+.empty-state p {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+/* ── Grid de cartes ── */
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* ── Carte tâche ── */
+.task-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.task-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.task-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.task-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.task-desc {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+
+/* ── Sous-tâches ── */
+.subtasks-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0 4px;
+  border-top: 1px solid var(--border);
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text);
+  padding: 4px 0;
+  border-radius: 4px;
+  user-select: none;
+}
+
+
+/* État terminé : grisé + non-interactif visuellement */
+.subtask-item.is-done {
+  cursor: default;
+}
+.subtask-item.is-done:hover {
+  opacity: 0.55;
+}
+
+.subtask-check {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.subtask-check.checked {
+  background: grey;
+  border-color: grey;
+  transform: scale(1.1);
+}
+
+.subtask-title {
+  flex: 1;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+.subtask-title.done {
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+/* ── Changement statut inline ── */
+.task-status-row {
+  display: flex;
+}
+
+.status-select-inline {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+}
+.status-select-inline:focus {
+  border-color: var(--primary);
+}
+
+/* ── Actions : toujours collées au bas de la carte ── */
+.task-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+/* ── Modal de confirmation ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease;
+}
+
+.modal-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  padding: 32px 28px 24px;
+  max-width: 380px;
+  width: calc(100% - 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: slideUp 0.18s ease;
+}
+
+.modal-icon {
+  margin-bottom: 4px;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.modal-desc {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  width: 100%;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .tasks-grid {
+    grid-template-columns: 1fr;
+  }
+  .search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .status-tabs {
+    gap: 4px;
+  }
+  .tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ── Sort select ── */
+.sort-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+}
+.sort-select:focus {
+  border-color: var(--primary);
+}
+
+/* ── Badges row ── */
+.badges-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ── Priority badges ── */
+.priority-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+}
+.priority-low    { background: #dcfce7; color: #166534; }
+.priority-normal { background: #dbeafe; color: #1d4ed8; }
+.priority-urgent { background: #fee2e2; color: #991b1b; }
+
+/* ── Deadline alert ── */
+.deadline-alert {
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+
+.deadline-alert.deadline-urgent {
+  color: #b91c1c;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* ── Card avec deadline imminente ── */
+.task-card.deadline-soon {
+  border-color: #fde68a;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1), var(--shadow);
+}
+
+.task-card.deadline-soon.deadline-urgent {
+  border-color: #fecaca;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1), var(--shadow);
+}

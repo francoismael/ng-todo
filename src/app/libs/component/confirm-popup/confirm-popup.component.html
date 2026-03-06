@@ -1,0 +1,14 @@
+@if(visible()){
+<div class="overlay">
+    <div class="modal">
+        @if(isError){
+        <lucide-icon [name]="iconAlert" color="red" [size]="32" />
+        }@else {
+        <lucide-icon [name]="iconCheck" color="green" [size]="32" />
+        }
+        <p>{{ message }}</p>
+        <button (click)="close()" class="btn close">Fermer</button>
+    </div>
+</div>
+
+}

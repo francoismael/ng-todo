@@ -1,0 +1,77 @@
+$header-height: 65px;
+$menu-width: 133px;
+$gap-horizontal: 25px;
+$bg-color: #f6f8fb;
+$white: #fff;
+
+.module-container {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-areas:
+        'header header'
+        'menu main';
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    background-color: $bg-color;
+    overflow-x: hidden;
+
+    .header {
+        grid-area: header;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: $header-height;
+        // z-index: 1000;
+        z-index: 0;
+        background-color: $white;
+    }
+
+    .menu {
+        grid-area: menu;
+        position: fixed;
+        top: $header-height;
+        left: 0;
+        bottom: 0;
+        width: $menu-width;
+        z-index: 0;
+        // z-index: 1000;
+    }
+
+    .main-area {
+        // grid-area: main;
+        // margin: $header-height 0 0 $menu-width;
+        // min-height: calc(100vh - #{$header-height});
+        // max-width: calc(100vw - #{$menu-width});
+        // padding: 25px;
+        // display: flex;
+        // gap: $gap-horizontal;
+        // overflow-x: hidden;
+
+        grid-area: main;
+        /* margin: 52px 0 0 118px; */
+        /* min-height: calc(100vh - 65px); */
+        /* max-width: calc(100vw - 133px); */
+        /* padding: 77px; */
+        display: flex;
+        gap: 25px;
+        overflow-x: hidden;
+        padding-left: 150px;
+        padding-top: 80px;
+        padding-right: 20px;
+        padding-bottom: 0px;
+    }
+
+    .content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .web-component {
+        // flex: none;
+        // min-width: 200px;
+        // max-width: 500px;
+        height: 89vh;
+    }
+}

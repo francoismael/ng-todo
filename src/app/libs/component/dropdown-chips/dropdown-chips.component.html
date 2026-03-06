@@ -1,0 +1,16 @@
+<div class="control">
+    <label [for]="formControlName">{{ label }}</label>
+    <div class="chips-container">
+        @for (item of selectedItems; track getItemId(item)) {
+        <app-chips [label]="getItemName(item)" [clearable]="true" (delete)="onRemove(item)" class="chips"></app-chips>
+        }
+    </div>
+    <ng-select [formControlName]="formControlName" dropdownPosition="bottom" class="select-component">
+        @if (isLoading) {
+        <ng-option>Chargement des données...</ng-option>
+        } @for (item of suggestions; track getItemId(item)) {
+        <ng-option [value]="getItemId(item)">{{ getItemName(item) }}</ng-option>
+        }
+    </ng-select>
+    <app-validation-error [control]="control!"></app-validation-error>
+</div>

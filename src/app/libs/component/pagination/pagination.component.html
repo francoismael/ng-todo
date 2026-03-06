@@ -1,0 +1,37 @@
+<div class="wrapper">
+    <div class="paginator">
+        <ul>
+            @if (totalItems) {
+
+            <li class="btn left-left-arrow" (click)="nbPage > 0 && setPage(1)">
+                <span>{{ '<<' }}</span>
+            </li>
+            <li class="btn left-arrow" (click)="page > 1 && setPage(page - 1)">
+                <span>{{ '<' }}</span>
+            </li>
+            @if(start > 1){
+            <li class="btn" (click)="morePagesBackward()">...</li>
+            } @for(p of pages; track p){
+
+            <li class="btn" (click)="setPage(p)" [class.current]="page === p">{{ p }}</li>
+            } @if(nbPage > end){
+            <li class="btn" (click)="morePagesForward()">...</li>
+            }
+            <li class="btn right-arrow" (click)="page < nbPage && setPage(page + 1)">
+                <span>{{ '>' }}</span>
+            </li>
+            <li class="btn right-right-arrow" (click)="nbPage > 0 && setPage(nbPage)">
+                <span>{{ '>>' }}</span>
+            </li>
+            }
+        </ul>
+        @if (showPageSize) {
+
+        <div class="page-size">
+            <label>Afficher </label>
+
+            <label for="pagesize">Page</label>
+        </div>
+        }
+    </div>
+</div>

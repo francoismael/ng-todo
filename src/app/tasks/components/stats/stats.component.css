@@ -1,0 +1,154 @@
+.stats-page {
+  max-width: 800px;
+}
+
+.stats-header {
+  margin-bottom: 24px;
+}
+
+.stats-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.stats-subtitle {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.loading {
+  color: var(--text-light);
+  padding: 40px;
+  text-align: center;
+}
+
+/* ── Completion card ── */
+.completion-card {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+  color: white;
+}
+
+.completion-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.completion-title {
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.completion-value {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.progress-bar {
+  background: rgba(255,255,255,0.25);
+  border-radius: 8px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 8px;
+  transition: width 0.6s ease;
+}
+
+.progress-fill.progress-sub {
+  background: var(--primary);
+}
+
+.completion-sub {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* ── Stats grid ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Colors per type */
+.stat-total  .stat-icon { background: #e0e7ff; color: #4f46e5; }
+.stat-done   .stat-icon { background: #dcfce7; color: #16a34a; }
+.stat-progress .stat-icon { background: #dbeafe; color: #2563eb; }
+.stat-pending .stat-icon { background: #fef3c7; color: #d97706; }
+.stat-urgent .stat-icon { background: #fee2e2; color: #dc2626; }
+.stat-overdue .stat-icon { background: #fdf4ff; color: #9333ea; }
+
+/* ── Sous-tâches ── */
+.subtask-stats {
+  margin-top: 4px;
+}
+
+.subtask-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.subtask-row-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+}
+
+.subtask-count { color: var(--text-light); }
+.subtask-pct   { font-weight: 700; color: var(--primary); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

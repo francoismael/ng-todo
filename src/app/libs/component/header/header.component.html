@@ -1,0 +1,23 @@
+<header class="header-container">
+    <div class="header-content">
+        <div class="left-section">
+            <div class="main-title">
+                Hospital Management Solution | <strong>{{ moduleName }}</strong>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="user-info" (click)="toggleUserMenu()">
+                <div class="user-avatar">
+                    {{ getInitial(currentUserDetails?.username) }}
+                </div>
+                <div class="user-details">
+                    <span class="username">{{ capitalize(currentUserDetails?.username!!) }}</span>
+                    <span class="user-role">{{ currentUserDetails?.role?.name }}</span>
+                </div>
+            </div>
+            @if (showUserMenu) {
+            <app-header-dropdown></app-header-dropdown>
+            }
+        </div>
+    </div>
+</header>

@@ -1,0 +1,27 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgb(171 171 171 / 42%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999999999999;
+}
+
+.modal {
+    width: auto;
+    height: auto;
+    min-height: 150px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 250px;
+    text-align: center;
+}
+
+button:hover {
+    cursor: pointer;
+}

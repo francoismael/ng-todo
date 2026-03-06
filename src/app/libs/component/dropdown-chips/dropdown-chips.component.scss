@@ -1,0 +1,23 @@
+@use 'forms.scss';
+
+.control {
+    width: 100%;
+    height: 100%;
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #43454e;
+        font-size: 0.9em;
+        letter-spacing: 0.15px;
+    }
+
+    .select-component {
+        background: #fff;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

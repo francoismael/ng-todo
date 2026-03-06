@@ -1,0 +1,181 @@
+<div class="sched-page">
+
+  <!-- En-tête -->
+  <div class="sched-header">
+    <h2>Planification</h2>
+    <p class="sched-subtitle">Créez des tâches récurrentes ou planifiées à l'avance</p>
+  </div>
+
+  <div class="sched-layout">
+
+    <!-- Formulaire de création -->
+    <div class="card sched-form-card">
+      <h3 class="form-section-title">Nouvelle planification</h3>
+
+      @if (errorMsg) {
+        <div class="alert-error">{{ errorMsg }}</div>
+      }
+
+      <div class="form-group">
+        <label>Titre *</label>
+        <input type="text" [(ngModel)]="title" placeholder="Nom de la tâche planifiée" />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea [(ngModel)]="description" placeholder="Description..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Priorité</label>
+        <div class="priority-group">
+          <label class="priority-option" [class.selected]="priority === 'low'">
+            <input type="radio" [(ngModel)]="priority" value="low" />
+            <span class="priority-label low">Faible</span>
+          </label>
+          <label class="priority-option" [class.selected]="priority === 'normal'">
+            <input type="radio" [(ngModel)]="priority" value="normal" />
+            <span class="priority-label normal">Normale</span>
+          </label>
+          <label class="priority-option" [class.selected]="priority === 'urgent'">
+            <input type="radio" [(ngModel)]="priority" value="urgent" />
+            <span class="priority-label urgent">Urgent</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Récurrence</label>
+        <div class="recurrence-options">
+          @for (opt of recurrenceOptions; track opt.value) {
+            <label class="recurrence-option" [class.selected]="recurrenceType === opt.value">
+              <input type="radio" [(ngModel)]="recurrenceType" [value]="opt.value" />
+              <span>{{ opt.label }}</span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <!-- Jours spécifiques -->
+      @if (recurrenceType === 'weekly') {
+        <div class="form-group">
+          <label>Jours</label>
+          <div class="days-chips">
+            @for (day of dayLabels; track $index) {
+              <label class="day-chip" [class.selected]="selectedDays[$index]">
+                <input type="checkbox" [(ngModel)]="selectedDays[$index]" />
+                {{ day }}
+              </label>
+            }
+          </div>
+        </div>
+      }
+
+      @if (recurrenceType === 'once') {
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" [(ngModel)]="scheduledDate" />
+        </div>
+      }
+
+      <!-- Heures (tous les types) -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Heure de début</label>
+          <input type="time" [(ngModel)]="startHour" />
+        </div>
+        <div class="form-group">
+          <label>Heure de fin</label>
+          <input type="time" [(ngModel)]="endHour" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" (click)="resetForm()">Réinitialiser</button>
+        <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="saving">
+          {{ saving ? 'Enregistrement...' : 'Créer la planification' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Liste des planifications -->
+    <div class="sched-list-col">
+      <h3 class="form-section-title">Mes planifications</h3>
+
+      @if (loading) {
+        <div class="spinner-wrap"><div class="spinner"></div></div>
+      }
+
+      @if (!loading && tasks.length === 0) {
+        <div class="empty-state">
+          <p>Aucune planification pour le moment</p>
+        </div>
+      }
+
+      @for (task of tasks; track task.id) {
+        <div class="sched-card" [class.inactive]="!task.isActive">
+
+          @if (loadingCardId === task.id) {
+            <div class="card-shimmer">
+              <div class="shimmer-row">
+                <div class="sk-line sk-title"></div>
+                <div class="sk-line sk-badge-sm"></div>
+              </div>
+              <div class="sk-line sk-desc"></div>
+              <div class="shimmer-row sk-actions">
+                <div class="sk-line sk-btn"></div>
+                <div class="sk-line sk-btn"></div>
+              </div>
+            </div>
+          } @else {
+
+          <div class="sched-card-header">
+            <div class="sched-card-info">
+              <span class="sched-title">{{ task.title }}</span>
+              <span class="sched-badge" [class.badge-daily]="task.recurrenceType === 'daily'"
+                    [class.badge-weekly]="task.recurrenceType === 'weekly'"
+                    [class.badge-once]="task.recurrenceType === 'once'">
+                {{ recurrenceLabel(task) }}
+              </span>
+            </div>
+            @if (!task.isActive) {
+              <span class="badge-paused">Pausé</span>
+            }
+          </div>
+
+          @if (task.description) {
+            <p class="sched-desc">{{ task.description }}</p>
+          }
+
+          @if (hoursLabel(task)) {
+            <p class="sched-hours">⏰ {{ hoursLabel(task) }}</p>
+          }
+
+          <div class="sched-card-actions">
+            <button class="btn btn-ghost btn-sm" (click)="toggle(task)">
+              {{ task.isActive ? 'Mettre en pause' : 'Activer' }}
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteTask(task.id)">Supprimer</button>
+          </div>
+
+          }
+        </div>
+      }
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal suppression -->
+@if (pendingDeleteId) {
+  <div class="modal-overlay" (click)="cancelDelete()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <h3 class="modal-title">Supprimer la planification ?</h3>
+      <p class="modal-desc">Cette planification ne générera plus de tâches automatiquement.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" (click)="cancelDelete()">Annuler</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+      </div>
+    </div>
+  </div>
+}

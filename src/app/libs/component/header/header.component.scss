@@ -1,0 +1,89 @@
+.header-container {
+    background-color: #ffffff;
+    height: 65px;
+    box-shadow: 2px 2px 4px 0 rgba(153, 153, 153, 0.25);
+    display: flex;
+    align-items: center;
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        .left-section {
+            margin-left: 45px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            .main-title {
+                font-size: 24px;
+                color: #061781;
+                margin-bottom: 0.25rem;
+                font-weight: 300;
+                font-family: 'Roboto', sans-serif !important;
+
+                strong {
+                    color: #061781;
+                    font-family: 'Roboto', sans-serif !important;
+                }
+            }
+        }
+
+        .right-section {
+            margin-right: 125px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                height: 100%;
+
+                .user-details {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    .username {
+                        font-weight: 600;
+                        color: #2c3e50;
+                        font-size: 0.9rem;
+                        line-height: 1.2;
+                    }
+
+                    .user-role {
+                        color: #999696;
+                        font-size: 0.75rem;
+                        font-weight: 400;
+                        line-height: 1.2;
+                    }
+                }
+
+                .user-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    background-color: #eef4ff;
+                    color: #4c84ff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                }
+
+                .username {
+                    font-weight: 500;
+                    color: #2c3e50;
+                }
+            }
+        }
+    }
+}

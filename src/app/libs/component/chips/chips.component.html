@@ -1,0 +1,23 @@
+<div
+    class="chip-container"
+    [class.expanded]="expanded"
+    [class.clearable]="clearable"
+    (click)="toggleExpanded()"
+    [attr.aria-expanded]="expanded"
+    role="button"
+    tabindex="0"
+    (keydown.enter)="toggleExpanded()"
+    (keydown.space)="toggleExpanded()"
+>
+    <div class="chip-content">
+        <div class="chip-label">
+            <span class="label-text">{{ label }}</span>
+            @if(count !== null && count !== undefined) {
+            <span class="count-badge" aria-hidden="true">({{ count }})</span>
+            }
+        </div>
+        @if(clearable) {
+        <button class="delete-btn" (click)="onDelete($event)" aria-label="Supprimer le filtre">×</button>
+        }
+    </div>
+</div>

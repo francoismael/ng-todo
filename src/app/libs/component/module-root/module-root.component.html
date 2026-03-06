@@ -1,0 +1,16 @@
+<div class="module-container">
+    <header class="header">
+        <app-header></app-header>
+    </header>
+    <nav class="menu">
+        <app-menu [currentUrl]="router.routerState.snapshot.url" [menus]="menus()"></app-menu>
+    </nav>
+    <div class="main-area">
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="web-component">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

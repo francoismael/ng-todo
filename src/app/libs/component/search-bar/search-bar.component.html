@@ -1,0 +1,12 @@
+<div class="search-container">
+    <input
+        #searchInput
+        type="text"
+        [placeholder]="placeholder()"
+        class="search-input"
+        [formControl]="searchForm.controls['search']"
+    />
+    <span class="search-icon">
+        <lucide-icon [img]="Search"></lucide-icon>
+    </span>
+</div>

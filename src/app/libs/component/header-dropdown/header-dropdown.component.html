@@ -1,0 +1,11 @@
+<div class="user-menu">
+    <div class="menu-items">
+        <div class="menu-item" (click)="navigateToSelectedModule()">
+            <i class="icon-settings"><lucide-icon [img]="gridIcon"></lucide-icon></i> Modules
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item logout" (click)="logout()">
+            <i class="icon-logout"><lucide-angular [img]="disconnectionIcon"></lucide-angular></i> Déconnexion
+        </div>
+    </div>
+</div>

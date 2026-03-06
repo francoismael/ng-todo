@@ -1,0 +1,80 @@
+$pagination-border: #dcdcdc;
+$light-text-gray: #cccccc;
+$pagination-button-hover-background: #f0f0f0;
+$pagination-current-page-background: #007bff;
+
+.wrapper {
+    display: flex;
+    height: 100%;
+
+    .paginator {
+        display: flex;
+        align-items: center;
+
+        ul {
+            border: 1px solid $pagination-border;
+            border-radius: 5px;
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+            font-size: 13px;
+            margin: 0 auto 0 0;
+
+            .left-arrow,
+            .left-left-arrow {
+                border-right: 1px solid $light-text-gray;
+                padding: 0;
+            }
+
+            .right-arrow,
+            .right-right-arrow {
+                border-left: 1px solid $light-text-gray;
+                padding: 0;
+            }
+
+            li {
+                width: 35px;
+                cursor: pointer;
+                user-select: none;
+                padding: 5px 10px;
+                color: black;
+                text-align: center;
+                line-height: 1.65;
+            }
+            .btn {
+                &:hover {
+                    background-color: $pagination-button-hover-background;
+                }
+
+                img {
+                    vertical-align: bottom;
+                }
+            }
+            .current {
+                color: white;
+                background-color: $pagination-current-page-background;
+            }
+            select {
+                outline: none;
+                border: none;
+                border-bottom: 1px solid #7f7f7f;
+            }
+            label {
+                width: 100px;
+                padding-left: 15px;
+            }
+        }
+
+        .page-size {
+            display: flex;
+            align-items: baseline;
+            margin: 0 5px 0 10px;
+        }
+
+        .page-size label {
+            padding: 0 10px;
+            font-size: 14px;
+            color: #636363;
+        }
+    }
+}

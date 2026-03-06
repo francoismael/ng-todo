@@ -1,0 +1,84 @@
+<div class="form-page">
+  <div class="form-header">
+    <a routerLink="/tasks" class="btn btn-ghost btn-sm back-link">← Retour</a>
+    <h2>Modifier la tâche</h2>
+  </div>
+
+  <div class="card form-card">
+    @if (errorMsg) {
+      <div class="alert alert-error">{{ errorMsg }}</div>
+    }
+
+    <div class="form-group">
+      <label>Titre *</label>
+      <input type="text" [(ngModel)]="title" placeholder="Nom de la tâche" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea [(ngModel)]="description" placeholder="Description..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Priorité</label>
+      <div class="priority-group">
+        <label class="priority-option" [class.selected]="priority === 'low'">
+          <input type="radio" [(ngModel)]="priority" value="low" />
+          <span class="priority-label low">Faible</span>
+        </label>
+        <label class="priority-option" [class.selected]="priority === 'normal'">
+          <input type="radio" [(ngModel)]="priority" value="normal" />
+          <span class="priority-label normal">Normale</span>
+        </label>
+        <label class="priority-option" [class.selected]="priority === 'urgent'">
+          <input type="radio" [(ngModel)]="priority" value="urgent" />
+          <span class="priority-label urgent">Urgent</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date de debut</label>
+        <input type="datetime-local" [(ngModel)]="startTime" />
+      </div>
+      <div class="form-group">
+        <label>Date de fin</label>
+        <input type="datetime-local" [(ngModel)]="endTime" />
+      </div>
+    </div>
+
+    <!-- Sous-tâches -->
+    <div class="subtasks-section">
+      <div class="subtasks-header">
+        <span class="subtasks-label">Sous-tâches</span>
+        <button type="button" class="btn btn-ghost btn-sm" (click)="addSubTask()">+ Ajouter</button>
+      </div>
+
+      @for (sub of subTasks; track $index) {
+        <div class="subtask-row">
+          <input type="text" [(ngModel)]="sub.title" placeholder="Titre sous-tâche" />
+          <select [(ngModel)]="sub.status" class="subtask-status-select">
+            <option value="pending">En attente</option>
+            <option value="in-progress">En cours</option>
+            <option value="done">Terminé</option>
+          </select>
+          <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="removeSubTask($index)" title="Supprimer">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      }
+
+      @if (subTasks.length === 0) {
+        <p class="subtasks-empty">Aucune sous-tâche</p>
+      }
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/tasks" class="btn btn-ghost">Annuler</a>
+      <button type="button" class="btn btn-primary" (click)="submit()">Mettre à jour</button>
+    </div>
+  </div>
+</div>

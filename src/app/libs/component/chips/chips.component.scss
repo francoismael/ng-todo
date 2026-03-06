@@ -1,0 +1,71 @@
+.chip-container {
+    display: inline-flex;
+    background-color: #ffe6dc;
+    color: #f68a25;
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 14px;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 4px;
+    user-select: none;
+    border: none;
+    outline: none;
+
+    &:focus-visible {
+        box-shadow: 0 0 0 2px #223299;
+    }
+
+    &.clearable {
+        padding-right: 8px;
+    }
+
+    .chip-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .delete-btn {
+        background: none;
+        border: none;
+        color: #fa8110;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0 4px 0 0;
+        font-size: 16px;
+        line-height: 1;
+        margin-right: 4px;
+
+        &:focus {
+            outline: 2px solid #223299;
+            border-radius: 2px;
+        }
+    }
+
+    .chip-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .label-text {
+            white-space: nowrap;
+        }
+    }
+
+    .count-badge {
+        font-size: 0.85em;
+        opacity: 0.8;
+    }
+
+    .toggle-icon {
+        margin-left: 4px;
+        transition: transform 0.2s ease;
+        font-size: 12px;
+
+        .chip-container:not(.expanded) & {
+            transform: rotate(-90deg);
+        }
+    }
+}

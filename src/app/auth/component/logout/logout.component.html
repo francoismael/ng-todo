@@ -1,0 +1,21 @@
+<div class="modal-overlay" (click)="dismiss()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+
+    <div class="modal-icon">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <circle cx="22" cy="22" r="22" fill="#fef3c7"/>
+        <path d="M22 13v10" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="22" cy="30" r="1.5" fill="#f59e0b"/>
+      </svg>
+    </div>
+
+    <h3 class="modal-title">Se déconnecter ?</h3>
+    <p class="modal-desc">Vous serez redirigé vers la page de connexion.</p>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" (click)="dismiss()">Annuler</button>
+      <button class="btn btn-danger" (click)="confirm()">Déconnexion</button>
+    </div>
+
+  </div>
+</div>
