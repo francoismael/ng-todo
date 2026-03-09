@@ -193,15 +193,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   toggleSubTaskStatus(taskId: string, subTaskId: string, current: 'pending' | 'in-progress' | 'done') {
     const next: 'pending' | 'done' = current === 'done' ? 'pending' : 'done';
-
-    const task = this.allTasks.find(t => t.id === taskId);
-    if (task) {
-      const sub = task.subTasks.find(s => s.id === subTaskId);
-      if (sub) {
-        sub.status = next;
-        this.applyFilters();
-      }
-    }
+    this.loadingCardId = taskId;
 
     this.taskService.updateSubTaskStatus(taskId, subTaskId, next).subscribe({
       next: () => this.loadTasks(),
