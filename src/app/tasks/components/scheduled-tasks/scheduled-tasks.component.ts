@@ -76,8 +76,8 @@ export class ScheduledTasksComponent implements OnInit {
       recurrenceType: this.recurrenceType,
       daysOfWeek,
       scheduledDate: this.recurrenceType === 'once' ? this.scheduledDate : undefined,
-      startHour: this.startHour || undefined,
-      endHour: this.endHour || undefined,
+      startHour: this.startHour ? this.toUtcHour(this.startHour) : undefined,
+      endHour: this.endHour ? this.toUtcHour(this.endHour) : undefined,
     }).subscribe({
       next: () => { this.toast.success('Planification créée'); this.resetForm(); this.loadTasks(); this.saving = false; },
       error: () => { this.errorMsg = 'Erreur lors de la création.'; this.toast.error('Erreur lors de la création'); this.saving = false; },
@@ -134,7 +134,23 @@ export class ScheduledTasksComponent implements OnInit {
 
   hoursLabel(t: ScheduledTask): string {
     if (!t.startHour && !t.endHour) return '';
-    if (t.startHour && t.endHour) return `${t.startHour} – ${t.endHour}`;
-    return t.startHour ?? t.endHour ?? '';
+    const start = t.startHour ? this.toLocalHour(t.startHour) : '';
+    const end = t.endHour ? this.toLocalHour(t.endHour) : '';
+    if (start && end) return `${start} – ${end}`;
+    return start || end;
+  }
+
+  private toUtcHour(localHour: string): string {
+    const [h, m] = localHour.split(':').map(Number);
+    const d = new Date();
+    d.setHours(h, m, 0, 0);
+    return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
+  }
+
+  private toLocalHour(utcHour: string): string {
+    const [h, m] = utcHour.split(':').map(Number);
+    const d = new Date();
+    d.setUTCHours(h, m, 0, 0);
+    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
   }
 }

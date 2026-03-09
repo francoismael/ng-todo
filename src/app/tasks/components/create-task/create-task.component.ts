@@ -46,12 +46,14 @@ export class CreateTaskComponent {
     this.errorMsg = '';
 
     const isMobile = window.innerWidth <= 600;
-    const startTime = isMobile
+    const rawStart = isMobile
       ? (this.startDate ? `${this.startDate}T${this.startHour || '00:00'}` : '')
       : this.startTime;
-    const endTime = isMobile
+    const rawEnd = isMobile
       ? (this.endDate ? `${this.endDate}T${this.endHour || '00:00'}` : '')
       : this.endTime;
+    const startTime = rawStart ? new Date(rawStart).toISOString() : '';
+    const endTime = rawEnd ? new Date(rawEnd).toISOString() : '';
 
     this.taskService.createTask({
       title: this.title,
