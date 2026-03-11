@@ -73,10 +73,13 @@ export class TaskListComponent implements OnInit, OnDestroy {
     const expired = tasks.filter(t =>
       t.endTime && new Date(t.endTime) < now && t.status !== 'done'
     );
-    if (expired.length === 0) return false;
+    const scheduledDone = tasks.filter(t => t.isScheduled && t.status === 'done');
+    const toDelete = [...new Map([...expired, ...scheduledDone].map(t => [t.id, t])).values()];
 
-    let remaining = expired.length;
-    expired.forEach(t => {
+    if (toDelete.length === 0) return false;
+
+    let remaining = toDelete.length;
+    toDelete.forEach(t => {
       this.taskService.deleteTask(t.id).subscribe({
         next: () => { if (--remaining === 0) this.fetchAndDisplay(); },
         error: () => { if (--remaining === 0) this.fetchAndDisplay(); },
@@ -137,21 +140,43 @@ export class TaskListComponent implements OnInit, OnDestroy {
     return this.allTasks.filter(t => t.status === status).length;
   }
 
+  showDeadlineInfo(task: Task): boolean {
+    if (task.status === 'done') return false;
+    const now = Date.now();
+    if (task.startTime && new Date(task.startTime).getTime() > now) return true;
+    if (task.endTime) {
+      const diff = new Date(task.endTime).getTime() - now;
+      return diff > 0 && diff < 24 * 60 * 60 * 1000;
+    }
+    return false;
+  }
+
   isDeadlineSoon(task: Task): boolean {
     if (!task.endTime || task.status === 'done') return false;
+    if (task.startTime && new Date(task.startTime).getTime() > Date.now()) return false;
     const diff = new Date(task.endTime).getTime() - Date.now();
     return diff > 0 && diff < 24 * 60 * 60 * 1000;
   }
 
   isDeadlineUrgent(task: Task): boolean {
     if (!task.endTime || task.status === 'done') return false;
+    if (task.startTime && new Date(task.startTime).getTime() > Date.now()) return false;
     const diff = new Date(task.endTime).getTime() - Date.now();
     return diff > 0 && diff < 60 * 60 * 1000;
   }
 
   deadlineRemainingText(task: Task): string {
+    const now = Date.now();
+    if (task.startTime && new Date(task.startTime).getTime() > now) {
+      const diffMs = new Date(task.startTime).getTime() - now;
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+      if (hours > 0) return `Débute dans ${hours}h ${minutes}min`;
+      return `Débute dans ${minutes}min ${seconds}s`;
+    }
     if (!task.endTime) return '';
-    const diffMs = new Date(task.endTime).getTime() - Date.now();
+    const diffMs = new Date(task.endTime).getTime() - now;
     if (diffMs <= 0) return 'Aucun temps restant';
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));

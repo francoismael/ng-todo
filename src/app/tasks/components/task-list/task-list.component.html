@@ -91,8 +91,8 @@
         </div>
       </div>
 
-      <!-- Alerte deadline imminente -->
-      @if (isDeadlineSoon(task)) {
+      <!-- Alerte deadline / début -->
+      @if (showDeadlineInfo(task)) {
         <div class="deadline-alert" [class.deadline-urgent]="isDeadlineUrgent(task)">
           {{ deadlineRemainingText(task) }}
         </div>

@@ -12,4 +12,5 @@ export interface Task {
     status: 'pending' | 'in-progress' | 'done';
     priority?: TaskPriority;
     subTasks: SubTask[];
+    isScheduled?: boolean;
 }
